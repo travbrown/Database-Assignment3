@@ -31,7 +31,9 @@ def views(bp):
             bid = request.form['bid']
             date_of_voyage = request.form['date_of_voyage']
             voyages_add(conn, sid, bid, date_of_voyage)
-        return "Success"
+            rows = voyages(conn)
+        return render_template("table.html", name="Voyages", rows=rows)
+        
 
 
     

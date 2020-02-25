@@ -75,6 +75,7 @@ def views(bp):
             age = request.form['age']
             exp = request.form['exp']
             sailors_add(conn, name, age, exp)
-        return "Success"
+            rows = sailors(conn)
+        return render_template("table.html", name="Sailors", rows=rows)
 
 

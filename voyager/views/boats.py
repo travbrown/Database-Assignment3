@@ -59,4 +59,5 @@ def views(bp):
             name = request.form['name']
             color = request.form['color']
             boats_add(conn, name, color)
-        return "Success"
+            rows = boats(conn)
+        return render_template("table.html", name="Boats", rows=rows)
