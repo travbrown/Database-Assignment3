@@ -32,7 +32,7 @@ def sailors_who_sailed_certain_color_boat(conn):
     return execute(conn, sqlCommand)
 
 
-def sailors_add(conn):
+def sailors_add(conn, name, age, exp):
     # TODO: Enter the correct SQL Command
     # TODO: Implement operations & views
     sqlCommand = "select * from sailors"
@@ -63,3 +63,18 @@ def views(bp):
         with get_db() as conn:
             rows = sailors_who_sailed_certain_color_boat(conn)
         return render_template("table.html", name="Sailors who sailed on boat of a certain color", rows=rows)
+
+    @bp.route("/sailors/add", methods=['GET'])
+    def sailors_add_page():
+        return render_template("addSailor.html")
+
+    @bp.route("/sailors/add", methods=['POST'])
+    def _sailors_add():
+        with get_db() as conn:
+            name = request.form['name']
+            age = request.form['age']
+            exp = request.form['exp']
+            sailors_add(conn, name, age, exp)
+        return "Success"
+
+

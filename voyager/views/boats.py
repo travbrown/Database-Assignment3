@@ -11,12 +11,15 @@ def boats(conn):
     sqlCommand = "SELECT b.bid, b.name, b.color FROM Boats AS b"
     return execute(conn, sqlCommand)
 
+def boats_add(conn, name, color):
+    # TODO: Enter the correct SQL Command
+    sqlCommand = "select * from boats"
+    return execute(conn, sqlCommand)
 
 def boats_by_popularity(conn):
     # TODO: Enter the correct SQL Command
     sqlCommand = "select * from boats"
     return execute(conn, sqlCommand)
-
 
 def boats_sailed_by(conn):
     # TODO: Enter the correct SQL Command
@@ -45,3 +48,15 @@ def views(bp):
             "table.html",
             name="Boats Sailed By",
             rows=rows)
+    
+    @bp.route("/boats/add", methods = ['GET'])
+    def boats_add_page():
+        return render_template("addBoat.html")
+
+    @bp.route("/boats/add", methods = ['POST'])
+    def _boats_add():
+        with get_db() as conn:
+            name = request.form['name']
+            color = request.form['color']
+            boats_add(conn, name, color)
+        return "Success"

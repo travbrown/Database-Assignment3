@@ -1,5 +1,12 @@
 # Database-Assignment3
 
+
+The application should be written in Python3 using the Flask web framework.
+You should use SQLite as the database
+This is so you can develop completely independently of being able to connect to a GCE instance or Google's network.
+Basic HTML responses are fine (and encouraged). No CSS, javascript, or framework required.
+
+
 #### Required functionality
 ###### Views
 - List all sailors
