@@ -8,9 +8,8 @@ from voyager.db import get_db, execute
 def voyages(conn):
     return execute(conn, "select v.sid, v.bid, v.date_of_voyage from Voyages AS v")
 
-def voyages_add(conn, sid, bid, date_of_voyage):
-    # TODO: Enter the correct SQL Command
-    sqlCommand = "select * from boats"
+def voyages_add(conn, sid, bid, date):
+    sqlCommand = f"insert into voyages values({sid},{bid},'{date}');"
     return execute(conn, sqlCommand)
 
 def views(bp):
@@ -29,8 +28,8 @@ def views(bp):
         with get_db() as conn:
             sid = request.form['sid']
             bid = request.form['bid']
-            date_of_voyage = request.form['date_of_voyage']
-            voyages_add(conn, sid, bid, date_of_voyage)
+            date = request.form['date']
+            voyages_add(conn, sid, bid, date)
             rows = voyages(conn)
         return render_template("table.html", name="Voyages", rows=rows)
         

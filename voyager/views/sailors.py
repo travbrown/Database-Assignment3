@@ -14,28 +14,23 @@ def sailors(conn):
     return execute(conn, "SELECT s.sid, s.name,s.age,s.experience FROM Sailors AS s")
 
 
-def sailors_who_sailed(conn):
-    # TODO: Enter the correct SQL Command
-    sqlCommand = "select * from sailors"
+def sailors_who_sailed(conn, bname):
+    sqlCommand = f"select s.name from sailors as s, boats as b, voyages as v where v.sid=s.sid and v.bid=b.bid and b.name='{bname}' group by s.name;"
     return execute(conn, sqlCommand)
 
 
-def sailors_on_date(conn):
-    # TODO: Enter the correct SQL Command
-    sqlCommand = "select * from sailors"
+def sailors_on_date(conn, date):
+    sqlCommand = f"select s.name from sailors as s, voyages as v where v.sid=s.sid and date_of_voyage='{date}' group by s.name;"
     return execute(conn, sqlCommand)
 
 
-def sailors_who_sailed_certain_color_boat(conn):
-    # TODO: Enter the correct SQL Command
-    sqlCommand = "select * from sailors"
+def sailors_who_sailed_certain_color_boat(conn, color):
+    sqlCommand = f"select s.name from sailors as s, boats as b, voyages as v where v.sid=s.sid and v.bid=b.bid and b.color='{color}' group by s.name;"
     return execute(conn, sqlCommand)
 
 
 def sailors_add(conn, name, age, exp):
-    # TODO: Enter the correct SQL Command
-    # TODO: Implement operations & views
-    sqlCommand = "select * from sailors"
+    sqlCommand = f"insert into sailors(name,age,experience) values('{name}',{age},{exp});"
     return execute(conn, sqlCommand)
 
 
@@ -46,23 +41,26 @@ def views(bp):
             rows = sailors(conn)
         return render_template("table.html", name="Sailors", rows=rows)
 
-    @bp.route("/sailors/who-sailed")
+    @bp.route("/sailors/who-sailed", methods=['POST'])
     def _sailors_who_sailed():
         with get_db() as conn:
-            rows = sailors_who_sailed(conn)
-        return render_template("table.html", name="Sailors who sailed", rows=rows)
+            bname = request.form['boat-name']
+            rows = sailors_who_sailed(conn, bname)
+        return render_template("table.html", name=f"Sailors who sailed '{bname}'", rows=rows)
 
-    @bp.route("/sailors/who-sailed-on-date")
+    @bp.route("/sailors/who-sailed-on-date", methods=['POST'])
     def _sailors_on_date():
         with get_db() as conn:
-            rows = sailors_on_date(conn)
-        return render_template("table.html", name="Sailors who sailed on date", rows=rows)
+            date = request.form['date']
+            rows = sailors_on_date(conn, date)
+        return render_template("table.html", name=f"Sailors who sailed on {date}", rows=rows)
 
-    @bp.route("/sailors/who-sailed-on-boat-of-color")
+    @bp.route("/sailors/who-sailed-on-boat-of-color", methods=['POST'])
     def _sailors_who_sailed_certain_color_boat():
         with get_db() as conn:
-            rows = sailors_who_sailed_certain_color_boat(conn)
-        return render_template("table.html", name="Sailors who sailed on boat of a certain color", rows=rows)
+            color =  request.form['color']
+            rows = sailors_who_sailed_certain_color_boat(conn, color)
+        return render_template("table.html", name=f"Sailors who sailed a {color} boat", rows=rows)
 
     @bp.route("/sailors/add", methods=['GET'])
     def sailors_add_page():

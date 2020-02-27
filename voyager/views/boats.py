@@ -9,21 +9,19 @@ from voyager.db import get_db, execute
 
 def boats(conn):
     sqlCommand = "SELECT b.bid, b.name, b.color FROM Boats AS b"
+    #sqlCommand = "delete from boats where name='{name}'"    
     return execute(conn, sqlCommand)
 
 def boats_add(conn, name, color):
-    # TODO: Enter the correct SQL Command
-    sqlCommand = "select * from boats"
+    sqlCommand = f"insert into boats(name, color) values('{name}', '{color}');"
     return execute(conn, sqlCommand)
 
 def boats_by_popularity(conn):
-    # TODO: Enter the correct SQL Command
-    sqlCommand = "select * from boats"
+    sqlCommand = "select b.name from voyages as v, boats as b where b.bid = v.bid group by b.name order by count(*) desc"
     return execute(conn, sqlCommand)
 
-def boats_sailed_by(conn):
-    # TODO: Enter the correct SQL Command
-    sqlCommand = "select * from boats"
+def boats_sailed_by(conn,sname):
+    sqlCommand = f"select b.name from boats as b, sailors as s, voyages as v where v.sid=s.sid and b.bid=v.bid and s.name='{sname}' group by b.name;"
     return execute(conn, sqlCommand)
 
 
@@ -32,7 +30,7 @@ def views(bp):
     def _boats():
         with get_db() as conn:
             rows = boats(conn)
-        return render_template("table.html", name="boats", rows=rows)
+        return render_template("table.html", name="Boats", rows=rows)
 
     @bp.route("/boats/by-popularity")
     def _boats_by_popularity():
@@ -40,14 +38,12 @@ def views(bp):
             rows = boats_by_popularity(conn)
         return render_template("table.html", name="Boats by Popularity", rows=rows)
 
-    @bp.route("/boats/sailed-by")
+    @bp.route("/boats/sailed-by", methods = ['POST'])
     def _boats_sailed_by():
         with get_db() as conn:
-            rows = boats_sailed_by(conn)
-        return render_template(
-            "table.html",
-            name="Boats Sailed By",
-            rows=rows)
+            sname = request.form['sailor-name']
+            rows = boats_sailed_by(conn, sname)
+        return render_template("table.html",name=f"Boats Sailed By {sname}",rows=rows)
     
     @bp.route("/boats/add", methods = ['GET'])
     def boats_add_page():
