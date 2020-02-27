@@ -9,7 +9,6 @@ from voyager.db import get_db, execute
 
 def boats(conn):
     sqlCommand = "SELECT b.bid, b.name, b.color FROM Boats AS b"
-    #sqlCommand = "delete from boats where name='{name}'"    
     return execute(conn, sqlCommand)
 
 def boats_add(conn, name, color):
