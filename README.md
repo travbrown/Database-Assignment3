@@ -1,11 +1,15 @@
 # Database-Assignment3
 
 
+## How to Run
+> source activate.sh
+> flask run
+> Play around with the website at http://127.0.0.1:5000/
+
 The application should be written in Python3 using the Flask web framework.
 You should use SQLite as the database
 This is so you can develop completely independently of being able to connect to a GCE instance or Google's network.
 Basic HTML responses are fine (and encouraged). No CSS, javascript, or framework required.
-
 
 #### Required functionality
 ###### Views
