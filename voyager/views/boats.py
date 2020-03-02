@@ -6,9 +6,8 @@ from flask import escape
 
 from voyager.db import get_db, execute
 
-
 def boats(conn):
-    sqlCommand = "SELECT b.bid, b.name, b.color FROM Boats AS b"
+    sqlCommand = "SELECT * FROM boats as b;"
     return execute(conn, sqlCommand)
 
 def boats_add(conn, name, color):
@@ -16,7 +15,7 @@ def boats_add(conn, name, color):
     return execute(conn, sqlCommand)
 
 def boats_by_popularity(conn):
-    sqlCommand = "select b.name from voyages as v, boats as b where b.bid = v.bid group by b.name order by count(*) desc"
+    sqlCommand = "select b.name from voyages as v, boats as b where b.bid = v.bid group by b.name order by count(*) desc;"
     return execute(conn, sqlCommand)
 
 def boats_sailed_by(conn,sname):

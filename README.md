@@ -1,10 +1,11 @@
 # Database-Assignment3
 
-
 ## How to Run
 > source activate.sh
 > flask run
 > Play around with the website at http://127.0.0.1:5000/
+
+Collaborated with Caleb.
 
 The application should be written in Python3 using the Flask web framework.
 You should use SQLite as the database
