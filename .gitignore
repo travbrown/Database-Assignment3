@@ -1,3 +1,10 @@
 env
 __pycache__
 *.db
+
+# Secrets & credentials
+.env*
+*.key
+*.pem
+credentials*
+secrets*
